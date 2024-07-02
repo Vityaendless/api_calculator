@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <h1>Data</h1>
+    <h1>Operation</h1>
+    <button id="add" data-test="{% url 'webapp:add' %}" type="button" class="btn btn-success">Add</button>
+    <button id="subtract" data-test="{% url 'webapp:subtract' %}" type="button" class="btn btn-danger">Subtract</button>
+    <button id="multiply" data-test="{% url 'webapp:multiply' %}" type="button" class="btn btn-warning">Multiply</button>
+    <button id="divide" data-test="{% url 'webapp:divide' %}" type="button" class="btn btn-primary">Divide</button>
+    <h1>Result</h1>
+    <span id="result"></span>
+{% endblock %}
