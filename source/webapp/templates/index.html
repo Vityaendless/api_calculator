@@ -12,10 +12,10 @@
         <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="second">
     </div>
     <h1>Operation</h1>
-    <button id="add" data-operation="{% url 'webapp:add' %}" type="button" class="btn btn-success">Add</button>
-    <button id="subtract" data-operation="{% url 'webapp:subtract' %}" type="button" class="btn btn-danger">Subtract</button>
-    <button id="multiply" data-operation="{% url 'webapp:multiply' %}" type="button" class="btn btn-warning">Multiply</button>
-    <button id="divide" data-operation="{% url 'webapp:divide' %}" type="button" class="btn btn-primary">Divide</button>
+    <button id="add" data-operation="{% url 'webapp:add' %}" type="button" class="btn btn-success operation">Add</button>
+    <button id="subtract" data-operation="{% url 'webapp:subtract' %}" type="button" class="btn btn-danger operation">Subtract</button>
+    <button id="multiply" data-operation="{% url 'webapp:multiply' %}" type="button" class="btn btn-warning operation">Multiply</button>
+    <button id="divide" data-operation="{% url 'webapp:divide' %}" type="button" class="btn btn-primary operation">Divide</button>
     <h1>Result</h1>
     <span id="result"></span>
 {% endblock %}

@@ -1,5 +1,27 @@
-async function makeRequest(url, method='GET') {
-    let response = await fetch(url, {method});
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+
+
+async function makeRequest(url, body, method='GET') {
+    let headers = {};
+    if(method !== "GET") {
+        const csrftoken = getCookie('csrftoken');
+        headers['X-CSRFToken'] = csrftoken;
+    }
+    let response = await fetch(url, {method, body, headers});
     if (response.ok) {
         return await response.json();
     } else {
@@ -10,46 +32,25 @@ async function makeRequest(url, method='GET') {
 }
 
 
-async function onAddClick(e) {
+async function onClick(e) {
     e.preventDefault();
-    let data = await makeRequest(e.target.dataset['operation']);
-    console.log(data);
-}
-
-
-async function onSubtractClick(e) {
-    e.preventDefault();
-    let data = await makeRequest(e.target.dataset['operation']);
-    console.log(data);
-}
-
-
-async function onMultiplyClick(e) {
-    e.preventDefault();
-    let data = await makeRequest(e.target.dataset['operation']);
-    console.log(data);
-}
-
-
-async function onDivideClick(e) {
-    e.preventDefault();
-    let data = await makeRequest(e.target.dataset['operation']);
+    let first = document.getElementById('first');
+    let second = document.getElementById('second');
+    let body = {
+        "first": first.value,
+        "second": second.value
+    };
+    console.log(body);
+    let data = await makeRequest(e.target.dataset['operation'], JSON.stringify(body), "POST");
     console.log(data);
 }
 
 
 function onLoad() {
-    let add = document.getElementById('add');
-    add.addEventListener('click', onAddClick);
-
-    let subtract = document.getElementById('subtract');
-    subtract.addEventListener('click', onSubtractClick);
-
-    let multiply = document.getElementById('multiply');
-    multiply.addEventListener('click', onMultiplyClick);
-
-    let divide = document.getElementById('divide');
-    divide.addEventListener('click', onDivideClick);
+    let operations = document.getElementsByClassName("operation");
+    for (let operation of operations) {
+        operation.addEventListener('click', onClick);
+    }
 }
 
 
