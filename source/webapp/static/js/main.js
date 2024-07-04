@@ -42,6 +42,12 @@ async function onClick(e) {
     };
     console.log(body);
     let data = await makeRequest(e.target.dataset['operation'], JSON.stringify(body), "POST");
+    let span = document.getElementById('result');
+    span.style = "";
+    if (data.is_error === true) {
+        span.style = "color: red;";
+    }
+    span.innerText = data.amount;
     console.log(data);
 }
 
