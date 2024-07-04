@@ -4,11 +4,19 @@ from django.http import JsonResponse
 
 import json
 
+from .operation import Operand, Operation, OperationTypes
 
-class Operation:
-    def __init__(self, first, second):
-        self.first = first
-        self.second = second
+
+def operation_helper(body, type):
+    if body:
+        data = json.loads(body)
+        first = Operand(data['first'])
+        second = Operand(data['second'])
+        if first.check_validity() and second.check_validity():
+            operation = Operation(first, second, type)
+            return JsonResponse({'amount': operation.get_result(), 'is_error': False}, safe=False)
+        else:
+            return JsonResponse({'amount': 'No numbers in data', 'is_error': True}, safe=False)
 
 
 class IndexView(View):
@@ -18,23 +26,19 @@ class IndexView(View):
 
 class AddView(View):
     def post(self, request, *args, **kwargs):
-        if request.body:
-            data = json.loads(request.body)
-            op = Operation(**data)
-            print(op.first, op.second)
-        return JsonResponse([{'id': 1, 'name': 'test'}, {'id': 2, 'name': 'test2'}], safe=False)
+        return operation_helper(request.body, OperationTypes.add)
 
 
 class SubtractView(View):
-    def get(self, request, *args, **kwargs):
-        return JsonResponse([{'id': 1, 'name': 'test'}, {'id': 2, 'name': 'test2'}], safe=False)
+    def post(self, request, *args, **kwargs):
+        return operation_helper(request.body, OperationTypes.subtract)
 
 
 class MultiplyView(View):
-    def get(self, request, *args, **kwargs):
-        return JsonResponse([{'id': 1, 'name': 'test'}, {'id': 2, 'name': 'test2'}], safe=False)
+    def post(self, request, *args, **kwargs):
+        return operation_helper(request.body, OperationTypes.multiply)
 
 
 class DivideView(View):
-    def get(self, request, *args, **kwargs):
-        return JsonResponse([{'id': 1, 'name': 'test'}, {'id': 2, 'name': 'test2'}], safe=False)
+    def post(self, request, *args, **kwargs):
+        return operation_helper(request.body, OperationTypes.divide)
