@@ -55,4 +55,7 @@ class Operation:
             case OperationTypes.multiply:
                 return first_operand * second_operand
             case OperationTypes.divide:
-                return first_operand / second_operand
+                if second_operand != 0:
+                    return first_operand / second_operand
+                else:
+                    return "Division by zero!"
