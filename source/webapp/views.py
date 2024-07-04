@@ -16,7 +16,7 @@ def operation_helper(body, type):
             operation = Operation(first, second, type)
             return JsonResponse({'amount': operation.get_result(), 'is_error': False}, safe=False)
         else:
-            return JsonResponse({'amount': 'No numbers in data', 'is_error': True}, safe=False)
+            return JsonResponse({'amount': 'No numbers in data', 'is_error': True}, safe=False, status=400)
 
 
 class IndexView(View):
